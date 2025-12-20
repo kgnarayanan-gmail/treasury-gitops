@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-gitops
+  namespace: default
+  labels:
+    app: nginx-gitops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-gitops
+  template:
+    metadata:
+      labels:
+        app: nginx-gitops
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.27
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-gitops
+  namespace: default
+spec:
+  selector:
+    app: nginx-gitops
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
