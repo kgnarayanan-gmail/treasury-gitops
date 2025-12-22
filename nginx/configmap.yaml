@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-html
+  namespace: default
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Treasury GitOps Demo</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 50px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+            }
+            .container {
+                background: rgba(255, 255, 255, 0.1);
+                padding: 40px;
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+            }
+            h1 { font-size: 3em; margin-bottom: 20px; }
+            .info { font-size: 1.2em; line-height: 1.8; }
+            .badge {
+                background: rgba(255, 255, 255, 0.2);
+                padding: 5px 15px;
+                border-radius: 20px;
+                display: inline-block;
+                margin: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Treasury GitOps Platform</h1>
+            <div class="info">
+                <p><strong>Deployment Method:</strong> <span class="badge">GitOps with ArgoCD</span></p>
+                <p><strong>Repository:</strong> <span class="badge">treasury-gitops</span></p>
+                <p><strong>Managed By:</strong> <span class="badge">Kubernetes</span></p>
+                <p><strong>Configuration:</strong> <span class="badge">ConfigMap</span></p>
+                <hr style="margin: 30px 0; opacity: 0.3;">
+                <p>This page is served from a ConfigMap managed through GitOps!</p>
+                <p>Any changes to Git will automatically sync to this deployment.</p>
+            </div>
+        </div>
+    </body>
+    </html>
