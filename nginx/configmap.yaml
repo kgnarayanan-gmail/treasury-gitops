@@ -35,7 +35,8 @@ data:
     </head>
     <body>
         <div class="container">
-            <h1>Treasury GitOps Platform</h1>
+            <h1>Treasury GitOps Platform v2.0</h1>
+            <p style="color: #ffd700; font-size: 1.5em;">🚀 Just updated via Git!</p>
             <div class="info">
                 <p><strong>Deployment Method:</strong> <span class="badge">GitOps with ArgoCD</span></p>
                 <p><strong>Repository:</strong> <span class="badge">treasury-gitops</span></p>
