@@ -24,9 +24,9 @@ resources:
 content:
   enabled: true
   title: "Treasury PRODUCTION"
-  version: "v2.0"
-  emoji: "🚀"
-  subtitle: "Live Production System"
+  version: "v2.1"
+  emoji: "✨"
+  subtitle: "LIVE: Multi-Environment Deploy"
   gradient:
     start: "#667eea"
     end: "#764ba2"
