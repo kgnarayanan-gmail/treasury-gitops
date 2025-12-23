@@ -14,7 +14,7 @@ image:
 service:
   type: NodePort
   port: 80
-  nodePort: 30080
+  nodePort: 30081
 
 # Resource limits
 resources:
