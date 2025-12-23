@@ -29,9 +29,9 @@ resources:
 content:
   enabled: true
   title: "Treasury GitOps Platform"
-  version: "v1.0"
-  emoji: "🚀"
-  subtitle: "Deployed via Helm Chart"
+  version: "v2.0"
+  emoji: "⚡"
+  subtitle: "Powered by Helm + ArgoCD"
   gradient:
     start: "#667eea"
     end: "#764ba2"
