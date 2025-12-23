@@ -1,0 +1,40 @@
+# Default values for treasury-nginx chart
+# This is a YAML-formatted file.
+# Declare variables to be substituted into your templates.
+
+# Deployment configuration
+replicaCount: 3
+
+image:
+  repository: nginx
+  tag: "1.27"
+  pullPolicy: IfNotPresent
+
+# Service configuration
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30080
+
+# Resource limits
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+# Custom HTML content
+content:
+  enabled: true
+  title: "Treasury GitOps Platform"
+  version: "v1.0"
+  emoji: "🚀"
+  subtitle: "Deployed via Helm Chart"
+  gradient:
+    start: "#667eea"
+    end: "#764ba2"
+
+# Environment-specific settings
+environment: production

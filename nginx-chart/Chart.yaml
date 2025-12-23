@@ -1,0 +1,13 @@
+apiVersion: v2
+name: treasury-nginx
+description: Treasury GitOps Demo - Nginx Web Server
+type: application
+version: 1.0.0
+appVersion: "1.27"
+maintainers:
+  - name: Treasury Team
+    email: treasury@example.com
+keywords:
+  - nginx
+  - web
+  - treasury

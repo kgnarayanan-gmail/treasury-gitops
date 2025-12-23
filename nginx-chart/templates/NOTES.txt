@@ -1,0 +1,31 @@
+🎉 Treasury Nginx has been deployed!
+
+Release Name: {{ .Release.Name }}
+Chart Version: {{ .Chart.Version }}
+App Version: {{ .Chart.AppVersion }}
+Namespace: {{ .Release.Namespace }}
+Environment: {{ .Values.environment }}
+
+Your application is running with {{ .Values.replicaCount }} replicas.
+
+{{- if eq .Values.service.type "NodePort" }}
+
+Access your application at:
+  http://<minikube-ip>:{{ .Values.service.nodePort }}
+
+Get Minikube IP:
+  minikube ip
+
+{{- else }}
+
+To access your application:
+  kubectl port-forward svc/{{ .Chart.Name }} 8080:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+
+Then visit: http://localhost:8080
+{{- end }}
+
+To check the status:
+  helm status {{ .Release.Name }} -n {{ .Release.Namespace }}
+  kubectl get pods -n {{ .Release.Namespace }} -l app={{ .Chart.Name }}
+
+Happy deploying with Helm! 🚀

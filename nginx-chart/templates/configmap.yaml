@@ -1,0 +1,59 @@
+{{- if .Values.content.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-html
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ .Values.content.title }}</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 50px;
+                background: linear-gradient(135deg, {{ .Values.content.gradient.start }} 0%, {{ .Values.content.gradient.end }} 100%);
+                color: white;
+            }
+            .container {
+                background: rgba(255, 255, 255, 0.1);
+                padding: 40px;
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+            }
+            h1 { font-size: 3em; margin-bottom: 20px; }
+            .info { font-size: 1.2em; line-height: 1.8; }
+            .badge {
+                background: rgba(255, 255, 255, 0.2);
+                padding: 5px 15px;
+                border-radius: 20px;
+                display: inline-block;
+                margin: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>{{ .Values.content.title }} {{ .Values.content.version }}</h1>
+            <p style="color: #ffd700; font-size: 1.5em;">{{ .Values.content.emoji }} {{ .Values.content.subtitle }}</p>
+            <div class="info">
+                <p><strong>Release:</strong> <span class="badge">{{ .Release.Name }}</span></p>
+                <p><strong>Chart Version:</strong> <span class="badge">{{ .Chart.Version }}</span></p>
+                <p><strong>App Version:</strong> <span class="badge">{{ .Chart.AppVersion }}</span></p>
+                <p><strong>Environment:</strong> <span class="badge">{{ .Values.environment }}</span></p>
+                <p><strong>Replicas:</strong> <span class="badge">{{ .Values.replicaCount }}</span></p>
+                <hr style="margin: 30px 0; opacity: 0.3;">
+                <p>This deployment is managed by Helm and ArgoCD!</p>
+                <p>Customize by editing values.yaml in Git.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+{{- end }}
