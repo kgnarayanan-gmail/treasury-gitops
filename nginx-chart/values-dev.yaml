@@ -24,9 +24,9 @@ resources:
 content:
   enabled: true
   title: "Treasury DEV Environment"
-  version: "v2.0-dev"
-  emoji: "🔧"
-  subtitle: "Development & Testing"
+  version: "v2.1-dev"
+  emoji: "✨"
+  subtitle: "NEW FEATURE: Multi-Environment Deploy"
   gradient:
     start: "#11998e"
     end: "#38ef7d"
