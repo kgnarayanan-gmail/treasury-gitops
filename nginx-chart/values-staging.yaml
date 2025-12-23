@@ -1,0 +1,34 @@
+# Staging Environment Values
+# Pre-production testing with moderate resources
+
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "1.27"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30091
+
+resources:
+  limits:
+    cpu: 75m
+    memory: 96Mi
+  requests:
+    cpu: 40m
+    memory: 48Mi
+
+content:
+  enabled: true
+  title: "Treasury STAGING Environment"
+  version: "v2.0-staging"
+  emoji: "🧪"
+  subtitle: "Testing New Features"
+  gradient:
+    start: "#f093fb"
+    end: "#f5576c"
+
+environment: staging
