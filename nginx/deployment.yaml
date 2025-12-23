@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:broken-for-demo
+        image: nginx:1.27
         ports:
         - containerPort: 80
         resources:
