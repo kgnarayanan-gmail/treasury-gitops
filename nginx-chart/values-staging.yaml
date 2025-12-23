@@ -24,9 +24,9 @@ resources:
 content:
   enabled: true
   title: "Treasury STAGING Environment"
-  version: "v2.0-staging"
-  emoji: "🧪"
-  subtitle: "Testing New Features"
+  version: "v2.1-staging"
+  emoji: "✨"
+  subtitle: "TESTING: Multi-Environment Deploy"
   gradient:
     start: "#f093fb"
     end: "#f5576c"
