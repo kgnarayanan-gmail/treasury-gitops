@@ -1,0 +1,91 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: gitops-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus
+    app: kube-prometheus-stack
+spec:
+  groups:
+  - name: gitops_deployments
+    interval: 30s
+    rules:
+
+    # Alert when deployment has fewer replicas than desired
+    - alert: GitOpsDeploymentReplicasMismatch
+      expr: |
+        kube_deployment_spec_replicas{namespace="default", deployment=~"nginx-gitops|redis"}
+        !=
+        kube_deployment_status_replicas_available{namespace="default", deployment=~"nginx-gitops|redis"}
+      for: 5m
+      labels:
+        severity: warning
+        component: gitops
+      annotations:
+        summary: "Deployment {{ $labels.deployment }} has mismatched replicas"
+        description: "Deployment {{ $labels.deployment }} in namespace {{ $labels.namespace }} has {{ $value }} available replicas but expects more. This might indicate a deployment issue."
+
+    # Alert when pods are crash looping
+    - alert: GitOpsPodCrashLooping
+      expr: |
+        rate(kube_pod_container_status_restarts_total{namespace="default", pod=~"(nginx-gitops|redis).*"}[15m]) > 0
+      for: 5m
+      labels:
+        severity: critical
+        component: gitops
+      annotations:
+        summary: "Pod {{ $labels.pod }} is crash looping"
+        description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is restarting frequently. Container {{ $labels.container }} may be failing."
+
+    # Alert when pods are not ready
+    - alert: GitOpsPodNotReady
+      expr: |
+        kube_pod_status_phase{namespace="default", pod=~"(nginx-gitops|redis).*", phase!="Running"} == 1
+      for: 10m
+      labels:
+        severity: warning
+        component: gitops
+      annotations:
+        summary: "Pod {{ $labels.pod }} is not ready"
+        description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has been in {{ $labels.phase }} state for more than 10 minutes."
+
+    # Alert when deployment is unavailable
+    - alert: GitOpsDeploymentUnavailable
+      expr: |
+        kube_deployment_status_replicas_unavailable{namespace="default", deployment=~"nginx-gitops|redis"} > 0
+      for: 5m
+      labels:
+        severity: critical
+        component: gitops
+      annotations:
+        summary: "Deployment {{ $labels.deployment }} has unavailable replicas"
+        description: "Deployment {{ $labels.deployment }} has {{ $value }} unavailable replicas for more than 5 minutes."
+
+    # Alert for high memory usage
+    - alert: GitOpsPodHighMemoryUsage
+      expr: |
+        (sum(container_memory_usage_bytes{namespace="default", pod=~"(nginx-gitops|redis).*", container!=""}) by (pod)
+        /
+        sum(container_spec_memory_limit_bytes{namespace="default", pod=~"(nginx-gitops|redis).*", container!=""}) by (pod)) > 0.9
+      for: 10m
+      labels:
+        severity: warning
+        component: gitops
+      annotations:
+        summary: "Pod {{ $labels.pod }} has high memory usage"
+        description: "Pod {{ $labels.pod }} is using more than 90% of its memory limit."
+
+    # Alert for high CPU usage
+    - alert: GitOpsPodHighCPUUsage
+      expr: |
+        (sum(rate(container_cpu_usage_seconds_total{namespace="default", pod=~"(nginx-gitops|redis).*", container!=""}[5m])) by (pod)
+        /
+        sum(container_spec_cpu_quota{namespace="default", pod=~"(nginx-gitops|redis).*", container!=""}/100000) by (pod)) > 0.9
+      for: 10m
+      labels:
+        severity: warning
+        component: gitops
+      annotations:
+        summary: "Pod {{ $labels.pod }} has high CPU usage"
+        description: "Pod {{ $labels.pod }} is using more than 90% of its CPU limit."

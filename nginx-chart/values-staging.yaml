@@ -4,9 +4,16 @@
 replicaCount: 2
 
 image:
-  repository: nginx
-  tag: "1.27"
-  pullPolicy: IfNotPresent
+  repository: ghcr.io/kgnarayanan-gmail/treasury-app
+  tag: "latest"
+  pullPolicy: Always
+
+env:
+  VERSION: "v2.1-staging"
+  BUILD_NUMBER: "staging"
+  ENVIRONMENT: "staging"
+  IMAGE_TAG: "ghcr.io/kgnarayanan-gmail/treasury-app:latest"
+  GIT_COMMIT: "staging"
 
 service:
   type: NodePort

@@ -4,9 +4,16 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: "1.27"
-  pullPolicy: IfNotPresent
+  repository: ghcr.io/kgnarayanan-gmail/treasury-app
+  tag: "latest"
+  pullPolicy: Always
+
+env:
+  VERSION: "v2.1-dev"
+  BUILD_NUMBER: "dev"
+  ENVIRONMENT: "development"
+  IMAGE_TAG: "ghcr.io/kgnarayanan-gmail/treasury-app:latest"
+  GIT_COMMIT: "local-dev"
 
 service:
   type: NodePort
