@@ -29,7 +29,7 @@ resources:
     memory: 32Mi
 
 content:
-  enabled: true
+  enabled: false
   title: "Treasury DEV Environment"
   version: "v2.1-dev"
   emoji: "✨"

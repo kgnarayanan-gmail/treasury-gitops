@@ -29,7 +29,7 @@ resources:
     memory: 64Mi
 
 content:
-  enabled: true
+  enabled: false
   title: "Treasury PRODUCTION"
   version: "v2.1"
   emoji: "✨"

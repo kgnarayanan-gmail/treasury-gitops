@@ -29,7 +29,7 @@ resources:
     memory: 48Mi
 
 content:
-  enabled: true
+  enabled: false
   title: "Treasury STAGING Environment"
   version: "v2.1-staging"
   emoji: "✨"
