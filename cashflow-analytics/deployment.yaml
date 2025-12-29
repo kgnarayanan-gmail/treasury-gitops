@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cashflow-analytics
+  namespace: default
+  labels:
+    app: cashflow-analytics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cashflow-analytics
+  template:
+    metadata:
+      labels:
+        app: cashflow-analytics
+    spec:
+      containers:
+      - name: cashflow-api
+        image: cashflow-analytics:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        env:
+        - name: BIGQUERY_PROJECT_ID
+          value: "cashflow-analytics-prototype"
+        - name: BIGQUERY_DATASET
+          value: "cashflow_analytics"
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: "/secrets/bigquery/key.json"
+        volumeMounts:
+        - name: bigquery-credentials
+          mountPath: /secrets/bigquery
+          readOnly: true
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: bigquery-credentials
+        secret:
+          secretName: bigquery-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cashflow-analytics
+  namespace: default
+  labels:
+    app: cashflow-analytics
+spec:
+  selector:
+    app: cashflow-analytics
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30500
+  type: NodePort
